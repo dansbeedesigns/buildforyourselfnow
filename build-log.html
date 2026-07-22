@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Build Log — Build For Yourself</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0f0f10;
+      --surface:   #18181b;
+      --surface2:  #1f1f23;
+      --border:    #2a2a2f;
+      --gold:      #C9A84C;
+      --gold-dim:  rgba(201,168,76,0.15);
+      --white:     #e8e8ea;
+      --muted:     #5a5a62;
+      --green:     #3ecf6e;
+      --green-dim: rgba(62,207,110,0.12);
+      --amber:     #f5a623;
+      --amber-dim: rgba(245,166,35,0.12);
+      --red-dim:   rgba(239,68,68,0.12);
+      --red:       #ef4444;
+      --font-ui:   'Inter', sans-serif;
+      --font-head: 'Montserrat', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    html { height: 100%; }
+
+    body {
+      font-family: var(--font-ui);
+      background: var(--bg);
+      color: var(--white);
+      min-height: 100%;
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+
+    a { color: var(--gold); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── LAYOUT ── */
+    .shell {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      min-height: 100vh;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 1.5rem 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-brand {
+      padding: 0 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1rem;
+    }
+
+    .sidebar-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.35rem;
+    }
+
+    .sidebar-title {
+      font-family: var(--font-head);
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--gold);
+    }
+
+    .sidebar-nav {
+      list-style: none;
+      padding: 0 0.75rem;
+      flex: 1;
+    }
+
+    .sidebar-nav li { margin-bottom: 0.15rem; }
+
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.45rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      transition: color 0.15s, background 0.15s;
+    }
+
+    .sidebar-nav a:hover,
+    .sidebar-nav a.active {
+      color: var(--white);
+      background: var(--surface2);
+      text-decoration: none;
+    }
+
+    .sidebar-nav a.active { color: var(--gold); }
+
+    .nav-icon { width: 14px; text-align: center; flex-shrink: 0; }
+
+    .sidebar-footer {
+      padding: 1rem 1.25rem 0;
+      border-top: 1px solid var(--border);
+      margin-top: auto;
+    }
+
+    .sidebar-footer a {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    /* ── MAIN ── */
+    .main {
+      padding: 2rem 2.5rem 4rem;
+      max-width: 860px;
+    }
+
+    .page-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border);
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .page-header-left h1 {
+      font-family: var(--font-head);
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 0.2rem;
+    }
+
+    .page-header-left p {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .private-badge {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.75rem;
+      border-radius: 4px;
+      background: var(--red-dim);
+      color: var(--red);
+      border: 1px solid rgba(239,68,68,0.25);
+      white-space: nowrap;
+    }
+
+    /* ── BLOCKS ── */
+    .block {
+      margin-bottom: 2rem;
+    }
+
+    .block-header {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .block-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .block-rule {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── STAGE BAR ── */
+    .stage-row {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .stage-pip {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 500;
+      padding: 0.35rem 0.85rem;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      background: var(--surface);
+    }
+
+    .stage-pip.done {
+      border-color: rgba(62,207,110,0.3);
+      background: var(--green-dim);
+      color: var(--green);
+    }
+
+    .stage-pip.active {
+      border-color: rgba(201,168,76,0.4);
+      background: var(--gold-dim);
+      color: var(--gold);
+    }
+
+    /* ── OBJECTIVE ── */
+    .objective {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 6px 6px 0;
+      padding: 1rem 1.25rem;
+      font-size: 0.9rem;
+      color: var(--white);
+      line-height: 1.7;
+    }
+
+    /* ── PRIORITY LIST ── */
+    .priority-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .priority-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+    }
+
+    .p-rank {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--gold);
+      background: var(--gold-dim);
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 4px;
+      padding: 0.2rem 0.5rem;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .priority-item p {
+      font-size: 0.875rem;
+      color: var(--white);
+      line-height: 1.5;
+    }
+
+    /* ── TAGS ── */
+    .tag-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 4px;
+      background: var(--surface);
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    /* ── DECISIONS & QUESTIONS ── */
+    .item-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .item-row {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.75rem;
+      align-items: baseline;
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      font-size: 0.85rem;
+    }
+
+    .item-row .glyph {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .item-row.decision .glyph { color: var(--green); }
+    .item-row.question .glyph { color: var(--amber); }
+
+    .item-row strong {
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    .item-row span {
+      color: var(--muted);
+    }
+
+    /* ── TABLE ── */
+    .table-wrap {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.825rem;
+    }
+
+    thead {
+      background: var(--surface2);
+    }
+
+    thead th {
+      font-family: var(--font-mono);
+      font-size: 0.63rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0.65rem 1rem;
+      text-align: left;
+      white-space: nowrap;
+      border-bottom: 1px solid var(--border);
+    }
+
+    tbody tr { border-top: 1px solid var(--border); }
+    tbody tr:hover { background: var(--surface); }
+    tbody tr:first-child { border-top: none; }
+
+    tbody td {
+      padding: 0.75rem 1rem;
+      color: var(--muted);
+      vertical-align: top;
+      line-height: 1.5;
+    }
+
+    tbody td:first-child {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--white);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .pill {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.63rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+    }
+
+    .pill-planned  { background: var(--surface2);   color: var(--muted); border: 1px solid var(--border); }
+    .pill-recorded { background: var(--amber-dim);   color: var(--amber); border: 1px solid rgba(245,166,35,0.25); }
+    .pill-live     { background: var(--green-dim);   color: var(--green); border: 1px solid rgba(62,207,110,0.25); }
+
+    /* ── REVIEW ── */
+    .review-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .review-item {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 1rem;
+      align-items: start;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+    }
+
+    .review-q {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--muted);
+      line-height: 1.5;
+      padding-top: 0.05rem;
+    }
+
+    .review-a {
+      font-size: 0.85rem;
+      color: #444;
+      font-style: italic;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      .shell { grid-template-columns: 1fr; }
+      .sidebar { position: static; height: auto; }
+      .main { padding: 1.5rem 1.25rem 3rem; }
+      .review-item { grid-template-columns: 1fr; gap: 0.3rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- ░░ SIDEBAR ░░ -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <p class="sidebar-label">Creator Dashboard</p>
+      <p class="sidebar-title">Build For Yourself</p>
+    </div>
+    <ul class="sidebar-nav">
+      <li><a href="#stage" class="active"><span class="nav-icon">◎</span> Current Stage</a></li>
+      <li><a href="#objective"><span class="nav-icon">◈</span> Objective</a></li>
+      <li><a href="#priorities"><span class="nav-icon">↑</span> Priorities</a></li>
+      <li><a href="#not-doing"><span class="nav-icon">⊘</span> Not Doing Yet</a></li>
+      <li><a href="#decisions"><span class="nav-icon">✓</span> Decisions Made</a></li>
+      <li><a href="#questions"><span class="nav-icon">?</span> Questions</a></li>
+      <li><a href="#videos"><span class="nav-icon">▶</span> Video Tracker</a></li>
+      <li><a href="#review"><span class="nav-icon">↺</span> Weekly Review</a></li>
+    </ul>
+    <div class="sidebar-footer">
+      <a href="/">← Public Site</a>
+    </div>
+  </aside>
+
+  <!-- ░░ MAIN ░░ -->
+  <main class="main">
+
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Build Log</h1>
+        <p>Last updated: <span id="last-updated"></span></p>
+      </div>
+      <span class="private-badge">⬤ Private</span>
+    </div>
+
+    <!-- STAGE -->
+    <div class="block" id="stage">
+      <div class="block-header">
+        <span class="block-label">Current Stage</span>
+        <div class="block-rule"></div>
+      </div>
+      <div class="stage-row">
+        <div class="stage-pip active">Stage 1 — Discover</div>
+        <div class="stage-pip">Stage 2 — Choose</div>
+        <div class="stage-pip">Stage 3 — Begin</div>
+        <div class="stage-pip">Stage 4 — Build</div>
+        <div class="stage-pip">Stage 5 — Expand</div>
+      </div>
+    </div>
+
+    <!-- OBJECTIVE -->
+    <div class="block" id="objective">
+      <div class="block-header">
+        <span class="block-label">This Month's Objective</span>
+        <div class="block-rule"></div>
+      </div>
+      <div class="objective">
+        Define the channel promise, audience, content pillars, and first three pilot videos. Launch the website and get the publishing pipeline working end-to-end.
+      </div>
+    </div>
+
+    <!-- PRIORITIES -->
+    <div class="block" id="priorities">
+      <div class="block-header">
+        <span class="block-label">This Week's Three Priorities</span>
+        <div class="block-rule"></div>
+      </div>
+      <div class="priority-list">
+        <div class="priority-item">
+          <span class="p-rank">P1</span>
+          <p>Finish the channel brief and confirm the audience promise</p>
+        </div>
+        <div class="priority-item">
+          <span class="p-rank">P2</span>
+          <p>Draft and publish the homepage with the five-stage roadmap</p>
+        </div>
+        <div class="priority-item">
+          <span class="p-rank">P3</span>
+          <p>Outline the first pilot video topic and script structure</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOT DOING YET -->
+    <div class="block" id="not-doing">
+      <div class="block-header">
+        <span class="block-label">Not Doing Yet</span>
+        <div class="block-rule"></div>
+      </div>
+      <div class="tag-cloud">
+        <span class="tag">full logo system</span>
+        <span class="tag">course platform</span>
+        <span class="tag">membership area</span>
+        <span class="tag">resource library</span>
+        <span class="tag">paid products</span>
+        <span class="tag">daily social posting</span>
+        <span class="tag">perfect production setup</span>
+        <span class="tag">blog</span>
+        <span class="tag">email funnel</span>
+        <span class="tag">logo animation</span>
+        <span class="tag">social feed</span>
+        <span class="tag">multiple lead magnets</span>
+      </div>
+    </div>
+
+    <!-- DECISIONS -->
+    <div class="block" id="decisions">
+      <div class="block-header">
+        <span class="block-label">Decisions Made</span>
+        <div class="block-rule"></div>
+      </div>
+      <div class="item-list">
+        <div class="item-row decision"><span class="glyph">✓</span><div><strong>Channel name</strong> <span>— Build For Yourself</span></div></div>
+        <div class="item-row decision"><span class="glyph">✓</span><div><strong>Domain</strong> <span>— buildforyourselfnow.com, secured and live</span></div></div>
+        <div class="item-row decision"><span class="glyph">✓</span><div><strong>Handle</strong> <span>— @BuildForYourself</span></div></div>
+        <div class="item-row decision"><span class="glyph">✓</span><div><strong>Audience</strong> <span>— Adults over 50 with life, professional, or trade experience</span></div></div>
+        <div class="item-row decision"><span class="glyph">✓</span><div><strong>Core message</strong> <span>— Build something for yourself</span></div></div>
+        <div class="item-row decision"><span class="glyph">✓</span><div><strong>Platform</strong> <span>— YouTube is the vehicle; personal ownership is the larger promise</span></div></div>
+        <div class="item-row decision"><span class="glyph">✓</span><div><strong>Stack</strong> <span>— Plain HTML/CSS → GitHub → Cloudflare Pages, auto-deploy on push</span></div></div>
+        <div class="item-row decision"><span class="glyph">✓</span><div><strong>Brand colors</strong> <span>— Deep charcoal, gold, cream</span></div></div>
+        <div class="item-row decision"><span class="glyph">✓</span><div><strong>Voice</strong> <span>— Calm, peer-to-peer, no hype; knowledgeable friend in the workshop</span></div></div>
+      </div>
+    </div>
+
+    <!-- QUESTIONS -->
+    <div class="block" id="questions">
+      <div class="block-header">
+        <span class="block-label">Questions to Investigate</span>
+        <div class="block-rule"></div>
+      </div>
+      <div class="item-list">
+        <div class="item-row question"><span class="glyph">?</span><span>What do viewers over 50 fear most about starting a YouTube channel?</span></div>
+        <div class="item-row question"><span class="glyph">?</span><span>Which first-video topics create the strongest emotional response?</span></div>
+        <div class="item-row question"><span class="glyph">?</span><span>What equipment questions appear most repeatedly in comments?</span></div>
+        <div class="item-row question"><span class="glyph">?</span><span>Which free resource would genuinely help a beginner take action?</span></div>
+        <div class="item-row question"><span class="glyph">?</span><span>What search terms drive the most qualified traffic in this niche?</span></div>
+      </div>
+    </div>
+
+    <!-- VIDEO TRACKER -->
+    <div class="block" id="videos">
+      <div class="block-header">
+        <span class="block-label">Pilot Video Tracker</span>
+        <div class="block-rule"></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Video</th>
+              <th>Purpose</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th>Lesson</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Pilot 1</td>
+              <td>Test the emotional promise — why start now?</td>
+              <td><span class="pill pill-planned">Planned</span></td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Pilot 2</td>
+              <td>Test idea discovery — what could my channel be about?</td>
+              <td><span class="pill pill-planned">Planned</span></td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Pilot 3</td>
+              <td>Test practical instruction — how do I make my first video?</td>
+              <td><span class="pill pill-planned">Planned</span></td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- WEEKLY REVIEW -->
+    <div class="block" id="review">
+      <div class="block-header">
+        <span class="block-label">Weekly Review</span>
+        <div class="block-rule"></div>
+      </div>
+      <div class="review-grid">
+        <div class="review-item">
+          <p class="review-q">1 — What did I finish?</p>
+          <p class="review-a">Update after each publish or completed task.</p>
+        </div>
+        <div class="review-item">
+          <p class="review-q">2 — What did I learn from the audience?</p>
+          <p class="review-a">Note comment patterns, questions, and what resonated.</p>
+        </div>
+        <div class="review-item">
+          <p class="review-q">3 — What created unnecessary complexity?</p>
+          <p class="review-a">Identify what to stop or simplify.</p>
+        </div>
+        <div class="review-item">
+          <p class="review-q">4 — What is the single most important next step?</p>
+          <p class="review-a">One thing. Not a list.</p>
+        </div>
+        <div class="review-item">
+          <p class="review-q">5 — What am I deliberately not doing yet?</p>
+          <p class="review-a">Protect focus. This question saves the most time.</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  const d = new Date();
+  document.getElementById('last-updated').textContent =
+    d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+</script>
+</body>
+</html>

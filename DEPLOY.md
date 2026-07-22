@@ -86,8 +86,53 @@ Cloudflare Pages detects the push and auto-deploys within ~30 seconds. No manual
 
 ```
 BuildForYourselfNow/
-├── index.html      ← Main homepage
-├── style.css       ← All styles
-├── .gitignore      ← Git ignore rules
-└── DEPLOY.md       ← This file (not served by Cloudflare)
+├── index.html        ← Main homepage
+├── build-log.html    ← Private creator log (protected by Cloudflare Access)
+├── style.css         ← All styles
+├── .gitignore        ← Git ignore rules
+└── DEPLOY.md         ← This file (not served by Cloudflare)
 ```
+
+---
+
+## Step 4 — Protect /build-log with Cloudflare Access
+
+Cloudflare Access locks a URL path to approved email addresses only. It's free and built into your account.
+
+### 4a — Enable Zero Trust
+
+1. In the Cloudflare dashboard, click **Zero Trust** in the left sidebar (or go to https://one.dash.cloudflare.com)
+2. If it's your first time, you'll be asked to pick a team name — use something like `buildforyourself` (this is internal only)
+3. Select the **Free plan** when prompted
+
+### 4b — Create the Access Application
+
+1. In Zero Trust: **Access** → **Applications** → **Add an application**
+2. Choose **Self-hosted**
+3. Fill in:
+
+| Field | Value |
+|---|---|
+| Application name | `Build Log` |
+| Session duration | `24 hours` (or longer — your choice) |
+| Application domain | `buildforyourselfnow.com` |
+| Path | `build-log` |
+
+4. Click **Next**
+
+### 4c — Create the Access Policy
+
+1. Policy name: `Owner only`
+2. Action: **Allow**
+3. Under **Include**, set the rule to:
+   - Selector: **Emails**
+   - Value: `cale@dansbee.com`
+4. Click **Next** → **Add application**
+
+### 4d — Test it
+
+Visit `https://buildforyourselfnow.com/build-log` in an incognito window. You should see a Cloudflare Access login screen asking for your email. Enter `cale@dansbee.com` — Cloudflare sends a one-time code to that address. After you verify, you're in and stay authenticated for the session duration you set.
+
+Anyone else who visits that URL gets the access denied screen.
+
+> **Note:** The `noindex, nofollow` meta tag in `build-log.html` also tells search engines not to index the page, as a second layer of obscurity.
