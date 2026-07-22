@@ -1,0 +1,16 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/settings.json
+*.swp
+*.swo
+
+# Dropbox
+~$*
+
+# Build artifacts (none yet, but ready for future tooling)
+dist/
+node_modules/
