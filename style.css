@@ -523,6 +523,73 @@ h3 {
   color: #666;
 }
 
+/* ---------- WORKSHEET SECTION ---------- */
+.worksheet-inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 3rem;
+  align-items: center;
+}
+
+.worksheet-text h2 {
+  margin-bottom: 1rem;
+}
+
+.worksheet-text p {
+  color: var(--text-mid);
+  font-size: 1.05rem;
+  max-width: 520px;
+  margin-bottom: 0.75rem;
+  line-height: 1.7;
+}
+
+.worksheet-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  width: 240px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.worksheet-card-header {
+  background: var(--charcoal);
+  color: var(--gold);
+  font-family: var(--font-head);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  padding: 0.85rem 1.1rem;
+  border-bottom: 3px solid var(--gold);
+}
+
+.worksheet-card-body {
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.ws-step {
+  font-size: 0.78rem;
+  color: var(--text-mid);
+  padding: 0.5rem 0.75rem;
+  background: var(--cream);
+  border-radius: 4px;
+  border-left: 2px solid var(--gold);
+  line-height: 1.4;
+}
+
+.worksheet-card-footer {
+  padding: 0.6rem 1.1rem;
+  font-size: 0.72rem;
+  color: #999;
+  border-top: 1px solid var(--cream-dark);
+  text-align: center;
+  font-family: var(--font-head);
+  letter-spacing: 0.03em;
+}
+
 /* ---------- RESPONSIVE ---------- */
 @media (max-width: 768px) {
   .nav-links {
@@ -530,6 +597,14 @@ h3 {
   }
 
   .nav-links a:not(.btn) {
+    display: none;
+  }
+
+  .worksheet-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .worksheet-preview {
     display: none;
   }
 
