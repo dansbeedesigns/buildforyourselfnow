@@ -186,24 +186,22 @@ h3 {
 .nav-logo {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  white-space: nowrap;
   text-decoration: none;
+  flex-shrink: 0;
 }
 
 .nav-logo-img {
-  height: 32px;
-  width: 32px;
+  height: 36px;
+  width: auto;
   object-fit: contain;
   flex-shrink: 0;
 }
 
-.nav-logo-text {
-  font-family: var(--font-head);
-  font-weight: 800;
-  font-size: 1.1rem;
-  color: var(--gold);
-  letter-spacing: 0.02em;
+.nav-logo-full {
+  /* full 2:1 logo — let it size naturally from height */
+  height: 36px;
+  width: auto;
+  border-radius: 4px;
 }
 
 .nav-links {
