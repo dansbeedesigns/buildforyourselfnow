@@ -168,6 +168,8 @@ h3 {
   background: var(--charcoal);
   border-bottom: 1px solid var(--charcoal-80);
   transition: box-shadow var(--transition);
+  /* needed so mobile dropdown anchors to header bottom */
+  position: sticky;
 }
 
 .site-header.scrolled {
@@ -199,14 +201,91 @@ h3 {
 
 .nav-logo-full {
   /* full 2:1 logo — let it size naturally from height */
-  height: 56px;
+  height: 112px;
   width: auto;
   border-radius: 4px;
 }
 
-@media (max-width: 600px) {
+/* ---------- HAMBURGER ---------- */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  flex-shrink: 0;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--text-light);
+  border-radius: 2px;
+  transition: all 0.25s ease;
+  transform-origin: center;
+}
+
+.nav-toggle[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.nav-toggle[aria-expanded="true"] span:nth-child(2) {
+  opacity: 0;
+}
+.nav-toggle[aria-expanded="true"] span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+@media (max-width: 768px) {
   .nav-logo-full {
-    height: 44px;
+    height: 88px;
+  }
+
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--charcoal-90);
+    border-bottom: 1px solid var(--charcoal-80);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0.5rem 0;
+    z-index: 200;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links li {
+    list-style: none;
+  }
+
+  .nav-links a:not(.btn) {
+    display: block;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    color: var(--text-light);
+    border-bottom: 1px solid var(--charcoal-80);
+  }
+
+  .nav-links a:not(.btn):last-child {
+    border-bottom: none;
+  }
+
+  .nav-links .btn {
+    margin: 0.75rem 1.5rem;
+    text-align: center;
   }
 }
 
@@ -610,13 +689,6 @@ h3 {
 
 /* ---------- RESPONSIVE ---------- */
 @media (max-width: 768px) {
-  .nav-links {
-    gap: 1rem;
-  }
-
-  .nav-links a:not(.btn) {
-    display: none;
-  }
 
   .worksheet-inner {
     grid-template-columns: 1fr;
