@@ -199,9 +199,15 @@ h3 {
 
 .nav-logo-full {
   /* full 2:1 logo — let it size naturally from height */
-  height: 36px;
+  height: 56px;
   width: auto;
   border-radius: 4px;
+}
+
+@media (max-width: 600px) {
+  .nav-logo-full {
+    height: 44px;
+  }
 }
 
 .nav-links {
