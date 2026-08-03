@@ -326,6 +326,170 @@
       .cl-hero { padding: 3rem 0 2.5rem; }
       .progress-bar-wrap { top: 60px; }
     }
+
+    /* ══════════════════════════════════════════════
+       DUAL COLUMN LAYOUT
+    ══════════════════════════════════════════════ */
+    .dual-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      align-items: start;
+      min-height: 60vh;
+    }
+
+    /* ── My Progress sidebar ── */
+    .my-progress {
+      background: var(--charcoal);
+      border-right: 1px solid var(--charcoal-80);
+      position: sticky;
+      top: 178px; /* header (~130px) + progress bar (~48px) */
+      max-height: calc(100vh - 178px);
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--charcoal-80) transparent;
+    }
+
+    .mp-toggle { display: none; }
+
+    .mp-inner { padding: 1.5rem 1.25rem 2.5rem; }
+
+    .mp-heading {
+      font-family: var(--font-head);
+      font-size: 0.63rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--charcoal-80);
+    }
+
+    .mp-milestone { margin-bottom: 1.5rem; }
+
+    .mp-milestone-title {
+      font-family: var(--font-head);
+      font-size: 0.58rem;
+      font-weight: 800;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: #3a3a42;
+      margin-bottom: 0.5rem;
+      padding-bottom: 0.3rem;
+      border-bottom: 1px solid #222227;
+    }
+
+    .mp-milestone-title.complete { color: var(--gold); }
+    .mp-milestone-title.in-progress { color: #7a7a8a; }
+
+    .mp-item { margin-bottom: 0.4rem; }
+
+    .mp-item-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .mp-dot {
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 0.13rem;
+      font-size: 0.48rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    .mp-dot.done { background: #3ecf6e; }
+    .mp-dot.done::after { content: '✓'; }
+    .mp-dot.pending { border: 1.5px solid #333338; }
+
+    .mp-item-title {
+      font-size: 0.77rem;
+      line-height: 1.4;
+      font-weight: 500;
+    }
+
+    .mp-item-title.done { color: #9090a0; }
+    .mp-item-title.pending { color: #36363c; }
+
+    .mp-note {
+      margin: 0.25rem 0 0 1.35rem;
+      padding: 0.3rem 0.55rem;
+      background: rgba(62, 207, 110, 0.07);
+      border-left: 2px solid #3ecf6e;
+      border-radius: 0 3px 3px 0;
+      font-size: 0.7rem;
+      color: #6ecf8e;
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    .mp-note a { color: #6ecf8e; }
+
+    .mp-not-started {
+      font-size: 0.68rem;
+      color: #2e2e34;
+      font-style: italic;
+      margin-left: 0.25rem;
+    }
+
+    /* ── Visitor column ── */
+    .visitor-col { background: var(--cream); }
+
+    /* ── Mobile ── */
+    @media (max-width: 900px) {
+      .dual-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .my-progress {
+        position: static;
+        max-height: none;
+        overflow-y: visible;
+        order: 2;
+        border-right: none;
+        border-top: 2px solid var(--charcoal-80);
+      }
+
+      .mp-toggle {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 1.5rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-family: var(--font-head);
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--gold);
+      }
+
+      .mp-chevron {
+        font-size: 0.6rem;
+        transition: transform 0.2s;
+        display: inline-block;
+      }
+
+      .mp-toggle[aria-expanded="true"] .mp-chevron { transform: rotate(180deg); }
+
+      .mp-inner {
+        display: none;
+        border-top: 1px solid var(--charcoal-80);
+      }
+
+      .mp-inner.open { display: block; }
+
+      .visitor-col { order: 1; }
+    }
   </style>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
@@ -379,6 +543,100 @@
   </div>
 
   <!-- CHECKLIST BODY -->
+  <div class="dual-layout">
+
+  <!-- ░░ MY PROGRESS SIDEBAR ░░ -->
+  <aside class="my-progress">
+    <button class="mp-toggle" id="mp-toggle" aria-expanded="false">
+      Cale's Progress <span class="mp-chevron">▼</span>
+    </button>
+    <div class="mp-inner" id="mp-inner">
+      <p class="mp-heading">My Channel Progress</p>
+
+      <!-- M1 -->
+      <div class="mp-milestone">
+        <p class="mp-milestone-title complete">Milestone 1 — Decide before you build</p>
+        <div class="mp-item">
+          <div class="mp-item-row"><span class="mp-dot done"></span><span class="mp-item-title done">Choose your channel name</span></div>
+          <p class="mp-note">Chose Build For Yourself — direct, describes exactly what the channel is.</p>
+        </div>
+        <div class="mp-item">
+          <div class="mp-item-row"><span class="mp-dot done"></span><span class="mp-item-title done">Write your channel promise</span></div>
+          <p class="mp-note">Helps adults 50+ build a YouTube channel from scratch — documented publicly.</p>
+        </div>
+        <div class="mp-item">
+          <div class="mp-item-row"><span class="mp-dot done"></span><span class="mp-item-title done">Check your handle</span></div>
+          <p class="mp-note">Confirmed @BuildForYourself was available and claimed it.</p>
+        </div>
+        <div class="mp-item">
+          <div class="mp-item-row"><span class="mp-dot done"></span><span class="mp-item-title done">Personal or brand account</span></div>
+          <p class="mp-note">Used a Brand Account — Dansbee Designs already occupied my personal Google account.</p>
+        </div>
+        <div class="mp-item">
+          <div class="mp-item-row"><span class="mp-dot done"></span><span class="mp-item-title done">First three video topics</span></div>
+          <p class="mp-note">Topics captured in the <a href="/build-log.html">Build Log</a>.</p>
+        </div>
+      </div>
+
+      <!-- M2 -->
+      <div class="mp-milestone">
+        <p class="mp-milestone-title complete">Milestone 2 — Create and verify your channel</p>
+        <div class="mp-item">
+          <div class="mp-item-row"><span class="mp-dot done"></span><span class="mp-item-title done">Create your YouTube channel</span></div>
+        </div>
+        <div class="mp-item">
+          <div class="mp-item-row"><span class="mp-dot done"></span><span class="mp-item-title done">Verify account with phone number</span></div>
+        </div>
+        <div class="mp-item">
+          <div class="mp-item-row"><span class="mp-dot done"></span><span class="mp-item-title done">Set handle (@BuildForYourself)</span></div>
+        </div>
+        <div class="mp-item">
+          <div class="mp-item-row"><span class="mp-dot done"></span><span class="mp-item-title done">Enable two-factor authentication</span></div>
+        </div>
+      </div>
+
+      <!-- M3 -->
+      <div class="mp-milestone">
+        <p class="mp-milestone-title in-progress">Milestone 3 — Set up your channel presence</p>
+        <div class="mp-item">
+          <div class="mp-item-row"><span class="mp-dot done"></span><span class="mp-item-title done">Write channel description</span></div>
+          <p class="mp-note">Written and published — focused on people over 50 ready to build something for themselves.</p>
+        </div>
+        <div class="mp-item">
+          <div class="mp-item-row"><span class="mp-dot done"></span><span class="mp-item-title done">Upload a profile picture</span></div>
+          <p class="mp-note">Used the Build For Yourself logo.</p>
+        </div>
+        <div class="mp-item">
+          <div class="mp-item-row"><span class="mp-dot done"></span><span class="mp-item-title done">Create and upload channel art</span></div>
+          <p class="mp-note">Banner created and published.</p>
+        </div>
+        <div class="mp-item">
+          <div class="mp-item-row"><span class="mp-dot pending"></span><span class="mp-item-title pending">Add website and social links</span></div>
+        </div>
+        <div class="mp-item">
+          <div class="mp-item-row"><span class="mp-dot pending"></span><span class="mp-item-title pending">Decide on channel trailer approach</span></div>
+        </div>
+      </div>
+
+      <!-- M4-M6 -->
+      <div class="mp-milestone">
+        <p class="mp-milestone-title">Milestone 4 — Understand how uploading works</p>
+        <p class="mp-not-started">Not started yet</p>
+      </div>
+      <div class="mp-milestone">
+        <p class="mp-milestone-title">Milestone 5 — Publish your first video</p>
+        <p class="mp-not-started">Not started yet</p>
+      </div>
+      <div class="mp-milestone">
+        <p class="mp-milestone-title">Milestone 6 — After you publish</p>
+        <p class="mp-not-started">Not started yet</p>
+      </div>
+
+    </div>
+  </aside>
+
+  <!-- ░░ VISITOR CHECKLIST ░░ -->
+  <div class="visitor-col">
   <div class="cl-body">
 
     <!-- ── MILESTONE 1 ── -->
@@ -729,6 +987,8 @@
     </div>
 
   </div><!-- /cl-body -->
+  </div><!-- /visitor-col -->
+  </div><!-- /dual-layout -->
 
   <!-- FOOTER -->
   <footer class="cl-footer">
@@ -825,6 +1085,18 @@
           navLinks.classList.remove('open');
           navToggle.setAttribute('aria-expanded', 'false');
         });
+      });
+    }
+  </script>
+
+  <script>
+    // My Progress mobile toggle
+    const mpToggle = document.getElementById('mp-toggle');
+    const mpInner  = document.getElementById('mp-inner');
+    if (mpToggle && mpInner) {
+      mpToggle.addEventListener('click', () => {
+        const open = mpInner.classList.toggle('open');
+        mpToggle.setAttribute('aria-expanded', open);
       });
     }
   </script>
