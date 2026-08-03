@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Build Log — Build For Yourself</title>
-  <meta name="robots" content="noindex, nofollow" />
+  <title>Build Log — Build For Yourself Now</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -474,7 +473,6 @@
         <h1>Build Log</h1>
         <p>Last updated: <span id="last-updated"></span></p>
       </div>
-      <span class="private-badge">⬤ Private</span>
     </div>
 
     <!-- STAGE -->
@@ -667,7 +665,7 @@
 <script>
   const d = new Date();
   document.getElementById('last-updated').textContent =
-    d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 </script>
 </body>
 </html>

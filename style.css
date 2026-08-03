@@ -499,6 +499,17 @@ h3 {
   font-size: 1.1rem;
 }
 
+.about-link {
+  color: var(--gold-dark);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.about-link:hover {
+  color: var(--charcoal);
+}
+
 /* ---------- START HERE ---------- */
 .start-inner {
   max-width: 700px;
