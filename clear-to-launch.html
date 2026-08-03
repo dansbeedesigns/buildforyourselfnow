@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clear to Launch — Build For Yourself</title>
+  <meta name="description" content="A monthly group session where you leave knowing your channel name, your audience, and your first three video topics. 8 seats. $49." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+
+    /* ── Header ── */
+    .ctl-header {
+      background: var(--charcoal);
+      border-bottom: 1px solid var(--charcoal-80);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .ctl-header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.4); }
+
+    /* ── Hero ── */
+    .ctl-hero {
+      background: var(--charcoal);
+      padding: 5rem 0 4.5rem;
+      border-bottom: 3px solid var(--gold);
+    }
+
+    .ctl-hero-inner { max-width: 680px; }
+
+    .ctl-eyebrow {
+      font-family: var(--font-head);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.25rem;
+    }
+
+    .ctl-hero h1 {
+      font-family: var(--font-head);
+      font-size: clamp(2rem, 5vw, 3.1rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+    }
+
+    .ctl-hero p {
+      font-size: 1.1rem;
+      color: var(--text-light);
+      line-height: 1.8;
+      max-width: 580px;
+      margin-bottom: 2rem;
+    }
+
+    .ctl-hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.25rem;
+    }
+
+    .ctl-meta-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: var(--font-head);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-light);
+    }
+
+    .ctl-meta-pill span {
+      color: var(--gold);
+    }
+
+    /* ── What you'll leave with ── */
+    .ctl-outcomes {
+      background: var(--cream);
+      padding: 5rem 0;
+    }
+
+    .outcomes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+      margin-top: 2.5rem;
+    }
+
+    .outcome-card {
+      background: var(--white);
+      border: 1px solid #e8e4db;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .outcome-check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: var(--charcoal);
+      font-size: 0.6rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .outcome-card p {
+      font-size: 0.95rem;
+      color: var(--charcoal);
+      line-height: 1.5;
+      font-weight: 500;
+    }
+
+    /* ── Who it's for ── */
+    .ctl-who {
+      background: var(--charcoal);
+      padding: 5rem 0;
+    }
+
+    .who-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-top: 2.5rem;
+    }
+
+    .who-card-dark {
+      background: var(--charcoal-90);
+      border: 1px solid var(--charcoal-80);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+
+    .who-card-dark p {
+      font-size: 0.95rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    /* ── How it works ── */
+    .ctl-how {
+      background: var(--cream-dark);
+      padding: 5rem 0;
+    }
+
+    .how-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      margin-top: 2.5rem;
+    }
+
+    .how-step {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .how-num {
+      font-family: var(--font-head);
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .how-step h3 {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--charcoal);
+    }
+
+    .how-step p {
+      font-size: 0.9rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+    }
+
+    /* ── Details ── */
+    .ctl-details {
+      background: var(--charcoal);
+      padding: 5rem 0;
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-top: 2.5rem;
+      max-width: 760px;
+    }
+
+    .detail-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .detail-label {
+      font-family: var(--font-head);
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .detail-value {
+      font-size: 1rem;
+      color: var(--white);
+      font-weight: 500;
+    }
+
+    .detail-note {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      margin-top: 0.15rem;
+    }
+
+    /* ── CTA section ── */
+    .ctl-cta {
+      background: var(--gold);
+      padding: 5rem 0;
+      text-align: center;
+    }
+
+    .ctl-cta h2 {
+      font-family: var(--font-head);
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 800;
+      color: var(--charcoal);
+      margin-bottom: 1rem;
+    }
+
+    .ctl-cta p {
+      font-size: 1rem;
+      color: var(--charcoal);
+      opacity: 0.8;
+      max-width: 480px;
+      margin: 0 auto 2rem;
+      line-height: 1.7;
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 640px) {
+      .ctl-hero { padding: 3.5rem 0 3rem; }
+      .ctl-hero-meta { gap: 1rem; }
+      .details-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    }
+
+  </style>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+</head>
+<body>
+
+  <!-- ░░ NAV ░░ -->
+  <header class="ctl-header" id="ctl-header">
+    <nav class="nav container">
+      <a href="/" class="nav-logo"><img src="/buildforyourselfnow-logo.svg" alt="Build For Yourself" class="nav-logo-img nav-logo-full" /></a>
+      <ul class="nav-links">
+        <li><a href="/start-here.html">Start Here</a></li>
+        <li><a href="/#roadmap">Roadmap</a></li>
+        <li><a href="/channel-checklist.html">Checklist</a></li>
+        <li><a href="/find-your-channel-idea.pdf" download>Free Worksheet</a></li>
+        <li><a href="/build-log.html">Build Log</a></li>
+        <li><a href="https://www.youtube.com/@BuildForYourself" target="_blank" rel="noopener" class="btn btn-outline">YouTube Channel</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- ░░ HERO ░░ -->
+  <section class="ctl-hero">
+    <div class="container ctl-hero-inner">
+      <p class="ctl-eyebrow">Clear to Launch &nbsp;·&nbsp; Monthly Group Session</p>
+      <h1>Leave the call knowing exactly what your channel is.</h1>
+      <p>Most people don't start because they can't get past the first decisions. Clear to Launch is a live group session where you pressure-test your idea, name your channel, write your promise, and identify your first three videos — before you touch YouTube.</p>
+      <div class="ctl-hero-meta">
+        <span class="ctl-meta-pill">Format <span>Live Zoom</span></span>
+        <span class="ctl-meta-pill">Seats <span>8 maximum</span></span>
+        <span class="ctl-meta-pill">Duration <span>60–75 minutes</span></span>
+        <span class="ctl-meta-pill">Price <span>$49 per seat</span></span>
+      </div>
+      <!-- Replace href with your Calendly link when ready -->
+      <a href="#book" class="btn btn-primary">Book Your Seat →</a>
+    </div>
+  </section>
+
+  <!-- ░░ OUTCOMES ░░ -->
+  <section class="ctl-outcomes">
+    <div class="container">
+      <p class="eyebrow" style="color: var(--gold-dark);">What You'll Leave With</p>
+      <h2>One session. Six decisions made.</h2>
+      <p class="section-intro">Every item below is something most new creators spend weeks going back and forth on. We work through them together in a single session so you can start building instead of second-guessing.</p>
+
+      <div class="outcomes-grid">
+        <div class="outcome-card">
+          <span class="outcome-check">✓</span>
+          <p>A channel name you're confident in — clear enough that a stranger knows what the channel is about</p>
+        </div>
+        <div class="outcome-card">
+          <span class="outcome-check">✓</span>
+          <p>Your channel promise written in one sentence — who you help, what they'll learn, and why it matters</p>
+        </div>
+        <div class="outcome-card">
+          <span class="outcome-check">✓</span>
+          <p>Your first three video topics identified — so you know what you're making before you set up a single thing</p>
+        </div>
+        <div class="outcome-card">
+          <span class="outcome-check">✓</span>
+          <p>Clarity on personal versus brand account — and why it matters more than most guides admit</p>
+        </div>
+        <div class="outcome-card">
+          <span class="outcome-check">✓</span>
+          <p>Your @handle confirmed and available — the one decision that's harder to change later than people expect</p>
+        </div>
+        <div class="outcome-card">
+          <span class="outcome-check">✓</span>
+          <p>A clear path through the channel setup checklist — with your specific decisions already made</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░ WHO IT'S FOR ░░ -->
+  <section class="ctl-who">
+    <div class="container">
+      <p class="eyebrow" style="color: var(--gold);">Who It's For</p>
+      <h2 style="color: var(--white);">This call is for you if...</h2>
+      <div class="who-cards">
+        <div class="who-card-dark">
+          <p>You have an idea but can't fully commit to it — something keeps making you hesitate before you start.</p>
+        </div>
+        <div class="who-card-dark">
+          <p>You have too many ideas and can't choose — every option feels equally right and equally risky.</p>
+        </div>
+        <div class="who-card-dark">
+          <p>You've dismissed your own experience as unremarkable — you know things worth sharing but don't believe anyone would watch.</p>
+        </div>
+        <div class="who-card-dark">
+          <p>You want honest feedback on whether your concept will actually work — not encouragement, not a course, just a real conversation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░ HOW IT WORKS ░░ -->
+  <section class="ctl-how">
+    <div class="container">
+      <p class="eyebrow" style="color: var(--gold-dark);">How It Works</p>
+      <h2>Three steps. One clear outcome.</h2>
+      <div class="how-steps">
+        <div class="how-step">
+          <div class="how-num">01</div>
+          <h3>Book your seat</h3>
+          <p>Reserve one of 8 spots for the next session. Sessions run monthly. Once seats are gone, they're gone — there's no waitlist that converts to a sale.</p>
+        </div>
+        <div class="how-step">
+          <div class="how-num">02</div>
+          <h3>Come prepared</h3>
+          <p>Bring your rough idea, any channel names you've considered, and your biggest hesitation. No preparation beyond that is required — the session does the work.</p>
+        </div>
+        <div class="how-step">
+          <div class="how-num">03</div>
+          <h3>Leave with a plan</h3>
+          <p>Sixty to seventy-five minutes later, you'll have every key decision made and a clear next step. You can open YouTube and start the same day.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░ DETAILS ░░ -->
+  <section class="ctl-details">
+    <div class="container">
+      <p class="eyebrow" style="color: var(--gold);">The Details</p>
+      <h2 style="color: var(--white);">What to expect</h2>
+      <div class="details-grid">
+        <div class="detail-row">
+          <span class="detail-label">Format</span>
+          <span class="detail-value">Live group Zoom</span>
+          <span class="detail-note">Video on. Active participation expected.</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Duration</span>
+          <span class="detail-value">60–75 minutes</span>
+          <span class="detail-note">No overruns. Starts and ends on time.</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Seats</span>
+          <span class="detail-value">8 per session</span>
+          <span class="detail-note">Small enough that every person gets real time.</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Price</span>
+          <span class="detail-value">$49 per seat</span>
+          <span class="detail-note">One-time. No upsell on the call.</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Frequency</span>
+          <span class="detail-value">Monthly</span>
+          <span class="detail-note">Date announced each month.</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Led by</span>
+          <span class="detail-value">Cale Dansbee</span>
+          <span class="detail-note">Grew @DansbeeDesigns from 4 to 5,000+ subscribers. Now doing it again — publicly.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░ CTA ░░ -->
+  <section class="ctl-cta" id="book">
+    <div class="container">
+      <h2>Ready to get clear?</h2>
+      <p>Sessions are capped at 8 seats and run once a month. If you're ready to stop thinking about starting and actually start, this is the call.</p>
+      <!-- Replace href with your Calendly booking link when ready -->
+      <a href="#" class="btn btn-dark">Book Your Seat — $49 →</a>
+    </div>
+  </section>
+
+  <!-- ░░ FOOTER ░░ -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p class="footer-logo">Build For Yourself</p>
+      <p class="footer-tagline">Start a channel. Share what you know. Build something that's yours.</p>
+      <p class="footer-copy">&copy; <span id="year"></span> Build For Yourself. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const header = document.getElementById('ctl-header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 10);
+    });
+
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinks  = document.querySelector('.nav-links');
+    if (navToggle && navLinks) {
+      navToggle.addEventListener('click', () => {
+        const open = navLinks.classList.toggle('open');
+        navToggle.setAttribute('aria-expanded', open);
+      });
+      navLinks.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          navLinks.classList.remove('open');
+          navToggle.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+  </script>
+</body>
+</html>
